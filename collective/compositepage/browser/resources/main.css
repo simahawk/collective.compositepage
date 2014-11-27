@@ -1,0 +1,128 @@
+a.showhide {
+  padding-right: 10px;
+}
+body.composite-preview .composite-tools-wrapper {
+  position: absolute;
+  top: 65px;
+  right: -9999px;
+  z-index: 99999999;
+}
+body.composite-preview .bottom-tools {
+  display: none;
+}
+body.composite-preview.userrole-manager .tile {
+  border: none;
+}
+.composite-tools {
+  position: relative;
+  background-color: #333;
+  margin-bottom: 1em;
+  border-radius: 0.5em;
+  padding: 0.5em 0.5em 0.7em;
+  color: #fff;
+  -webkit-box-shadow: 0px 5px 9px 0px rgba(50, 50, 50, 0.7);
+  -moz-box-shadow: 0px 5px 9px 0px rgba(50, 50, 50, 0.7);
+  box-shadow: 0px 5px 9px 0px rgba(50, 50, 50, 0.7);
+}
+.composite-tools dl,
+.composite-tools dt,
+.composite-tools dd,
+.composite-tools .alert {
+  display: inline;
+}
+.composite-tools .alert {
+  padding: 0.1em 0.5em;
+}
+.composite-tools .btn-group,
+.composite-tools .btn {
+  float: right;
+  margin-right: 0.5em;
+}
+.bottom-tools {
+  margin-top: 1em;
+}
+/* tile and form fixes */
+div.main form input[type="text"],
+div.main form textarea {
+  width: 98%;
+}
+div.main form .formHelp {
+  display: block;
+}
+div.main form .control-label {
+  padding-top: 0;
+}
+div.main form span.label {
+  color: #aaa;
+}
+div.main form .fieldTextFormat {
+  float: right;
+}
+div.main form .fieldTextFormat > select {
+  height: auto;
+  padding: 0;
+}
+div.main form input[type="radio"],
+div.main form input[type="checkbox"] {
+  margin-top: 0.6em;
+}
+div.main form .namedblobimage-field img {
+  width: 100%;
+}
+select {
+  /*width: auto;*/
+  height: auto;
+}
+/*input[type="text"], textarea {
+    width: 94%;
+}*/
+textarea {
+  min-height: 8em;
+}
+/* -- */
+body.template-compositepage_view #content {
+  padding: 0;
+}
+body.template-compositepage_view div.main {
+  width: 100%;
+}
+/* tiles */
+.tile-edit-wrapper {
+  position: relative;
+}
+.tile-edit-wrapper .tile-actions {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  z-index: 9;
+}
+.tile .no-content {
+  margin: 0.5em 0.2em;
+}
+.userrole-manager .tile {
+  border: 2px dashed #ccc;
+  min-height: 4em;
+  border-radius: 0.5em;
+}
+.btn.move.disabled {
+  background-color: linear-gradient(to bottom, #aaaaaa, #dddddd);
+}
+.tile-form-wrapper {
+  background-color: #fff;
+  padding: 1em;
+  margin: 0 auto;
+  width: 80%;
+}
+.tile-content-wrapper {
+  overflow: hidden;
+}
+#formfield-form-widgets-predefined_style span.option {
+  width: 190px;
+  display: inline-block;
+}
+#formfield-form-widgets-predefined_style span.option span.label {
+  padding-left: 0;
+}
+#formfield-form-widgets-predefined_style span.option input[type="checkbox"] {
+  margin-top: 0.6em;
+}

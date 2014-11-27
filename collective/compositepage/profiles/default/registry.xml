@@ -1,0 +1,21 @@
+<registry>
+
+  <record name="compositepage.compositepage_predefined_styles">
+    <field type="plone.registry.field.Text">
+      <title>CompositePage Predefined Styles (format css class|title)</title>
+      <description></description>
+    </field>
+<value purge="false">
+</value>
+  </record>
+
+  <record name="compositepage.tiles_predefined_styles">
+    <field type="plone.registry.field.Text">
+      <title>Tiles Predefined Styles (format css class|title)</title>
+      <description></description>
+    </field>
+<value purge="false">
+</value>
+  </record>
+
+</registry>

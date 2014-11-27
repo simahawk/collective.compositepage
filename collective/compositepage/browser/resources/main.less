@@ -1,0 +1,113 @@
+a.showhide{ padding-right: 10px }
+body.composite-preview {
+    .composite-tools-wrapper{
+        position: absolute;
+        top: 65px;
+        right: -9999px;
+        z-index: 99999999;
+    }
+    .bottom-tools{ display: none }
+    &.userrole-manager .tile {
+        border: none;
+    }
+}
+.composite-tools {
+    position: relative;
+    background-color: #333;
+    margin-bottom: 1em;
+    border-radius: 0.5em;
+    padding: 0.5em 0.5em 0.7em;
+    color: #fff;
+    -webkit-box-shadow: 0px 5px 9px 0px rgba(50, 50, 50, 0.7);
+    -moz-box-shadow:    0px 5px 9px 0px rgba(50, 50, 50, 0.7);
+    box-shadow:         0px 5px 9px 0px rgba(50, 50, 50, 0.7);
+    dl, dt, dd, .alert{ display: inline; }
+    .alert{ padding: 0.1em 0.5em }
+    .btn-group,
+    .btn {
+        float: right;
+        margin-right: 0.5em;
+    }
+}
+.bottom-tools {
+    margin-top: 1em;
+}
+/* tile and form fixes */
+
+div.main form {
+    input[type="text"],
+    textarea{
+        width: 98%;
+    }
+    .formHelp{ display: block }
+    .control-label{
+        padding-top: 0;
+    }
+    span.label{ color: #aaa; }
+    .fieldTextFormat {
+        float: right;
+        > select {
+            height: auto;
+            padding: 0;
+        }
+    }
+    input[type="radio"], input[type="checkbox"]{
+        margin-top: 0.6em;
+    }
+    .namedblobimage-field img {
+        width: 100%;
+    }
+}
+select {
+    /*width: auto;*/
+    height: auto;
+}
+/*input[type="text"], textarea {
+    width: 94%;
+}*/
+textarea{ min-height: 8em }
+/* -- */
+
+body.template-compositepage_view #content{ padding: 0 }
+body.template-compositepage_view div.main{ width: 100% }
+
+/* tiles */
+.tile-edit-wrapper{
+    position: relative;
+    .tile-actions {
+        position: absolute;
+        right: 1em;
+        top: 1em;
+        z-index: 9;
+    }
+}
+.tile .no-content {
+    margin: 0.5em 0.2em;
+}
+
+.userrole-manager .tile {
+    border: 2px dashed #ccc;
+    min-height: 4em;
+    border-radius: 0.5em;
+}
+
+.btn.move.disabled{
+
+    background-color: linear-gradient(to bottom, #aaa, #ddd);
+}
+.tile-form-wrapper{
+    background-color: #fff;
+    padding: 1em;
+    margin: 0 auto;
+    width: 80%;
+}
+.tile-content-wrapper{ overflow: hidden; }
+
+#formfield-form-widgets-predefined_style span.option{
+    width: 190px;
+    display: inline-block;
+    span.label{
+        padding-left: 0;
+    }
+    input[type="checkbox"]{ margin-top: 0.6em }
+}

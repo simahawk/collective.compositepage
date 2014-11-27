@@ -1,0 +1,50 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="collective.compositepage">
+
+  <!-- Tiles' definitions -->
+
+  <plone:tile
+    name="compositepage.tiles.richtext"
+    title="Rich text"
+    add_permission="cmf.ModifyPortalContent"
+    schema=".richtext.IRichTextTileSchema"
+    class=".richtext.RichTextTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="compositepage.tiles.text"
+    title="Raw text / Page Template"
+    add_permission="cmf.ModifyPortalContent"
+    schema=".text.ITextTileSchema"
+    class=".text.TextTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="compositepage.tiles.video"
+    title="Video"
+    add_permission="cmf.ModifyPortalContent"
+    schema=".video.IVideoTileSchema"
+    class=".video.VideoTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="compositepage.tiles.imagelisting"
+    title="Image listing"
+    add_permission="cmf.ModifyPortalContent"
+    schema=".image.IImageListingTile"
+    class=".image.ImageListingTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+</configure>

@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xml:lang="en"
+    lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    metal:use-macro="context/tiles_macros/main"
+    i18n:domain="collective.compositepage">
+  <metal:content metal:fill-slot="content">
+    <div class="text-wrapper"
+         tal:define="text view/text_output"
+         tal:attributes="class python: 'text-wrapper' + (not text and ' no-content' or '')">
+        <div tal:replace="structure text">text</div>
+    </div>
+  </metal:content>
+</html>
+

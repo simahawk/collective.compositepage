@@ -1,0 +1,61 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="collective.compositepage">
+
+  <include package=".widgets" />
+  <include file="tiles.zcml" />
+
+  <browser:page
+    for="*"
+    name="tiles_macros"
+    layer="..interfaces.ILayer"
+    template="templates/macros.pt"
+    permission="zope2.View"
+    />
+
+    <!-- Standard add view and form - invoked from the @@add-tile traversal view -->
+
+  <adapter
+    for="zope.annotation.interfaces.IAnnotatable
+         ..interfaces.ILayer
+         plone.tiles.interfaces.ITileType"
+    provides="plone.app.tiles.interfaces.ITileAddView"
+    factory=".add.TilesAddView"
+    />
+
+  <class class=".add.TilesAddView">
+    <require
+        permission="cmf.ModifyPortalContent"
+        interface="zope.publisher.interfaces.browser.IBrowserPage"
+        />
+  </class>
+
+  <!-- Standard edit view and form - invoked from the @@edit-tile traversal view -->
+
+  <adapter
+    for="zope.annotation.interfaces.IAnnotatable
+         ..interfaces.ILayer
+         plone.tiles.interfaces.ITileType"
+    provides="plone.app.tiles.interfaces.ITileEditView"
+    factory=".edit.TilesEditView"
+    />
+
+  <class class=".edit.TilesEditView">
+    <require
+      permission="cmf.ModifyPortalContent"
+      interface="zope.publisher.interfaces.browser.IBrowserPage"
+      />
+  </class>
+
+  <browser:page
+    name="download-file"
+    for="zope.annotation.interfaces.IAnnotatable"
+    layer="..interfaces.ILayer"
+    class=".traverse.DownloadFile"
+    permission="zope2.View"
+    />
+
+</configure>

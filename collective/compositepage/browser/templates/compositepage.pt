@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="collective.compositepage">
+
+  <head>
+    <metal:css fill-slot="style_slot">
+      <!-- custom CSS for this composite page-->
+      <style id="composite-page-css" tal:content="structure view/custom_css"></style>
+    </metal:css>
+  </head>
+
+<body>
+
+<metal:main fill-slot="main">
+
+  <div id="composite-page" tal:attributes="class view/css_class">
+
+    <div tal:attributes="class python: 'heading' + (context.centered_title and ' text-center' or '')">
+
+      <div class="clearfix"></div>
+      <h1 class="documentFistHeading"
+          tal:attributes="class python: context.show_title and 'documentFistHeading' or 'hiddenStructure'"
+          tal:content="context/Title"
+          />
+
+      <p class="hiddenStructure"
+         tal:attributes="class python: context.show_description and 'documentDescription' or 'hiddenStructure'"
+         tal:content="context/Description"
+         />
+
+    </div>
+
+      <div class="clearfix"></div>
+
+      <div tal:replace="structure context/@@compositepage_tools" />
+
+      <div class="container-narrow">
+        <div class="placeholder" />
+      </div>
+
+      <div class="composite-wrapper sorting-enabled"
+           tal:attributes="data-baseurl context/absolute_url">
+
+          <div tal:replace="structure view/tiles" />
+
+      </div>
+
+      <div class="bottom-tools">
+        <div tal:replace="structure context/@@compositepage_tools" />
+      </div>
+
+    </div>
+
+</metal:main>
+
+</body>
+</html>
+

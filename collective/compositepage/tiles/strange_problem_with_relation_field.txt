@@ -1,0 +1,32 @@
+from z3c.relationfield.schema import RelationChoice
+from z3c.relationfield.schema import RelationList
+from plone.formwidget.contenttree import ObjPathSourceBinder
+
+customers = RelationList(
+    title=_(u'Customers'),
+    default=[],
+    value_type=RelationChoice(
+        title=u"Related",
+        source=ObjPathSourceBinder()
+    ),
+    required=False,
+)
+
+
+Tile field value
+
+(Pdb++) container = self.data['customers'][0]
+(Pdb++) container
+<Folder at customers>
+
+parent is null
+
+(Pdb++) container.__parent__
+
+The real content
+
+(Pdb++) real_container = catalog(UID=container.UID())[0].getObject()
+(Pdb++) real_container
+<Folder at /Plone/selenium/customers>
+(Pdb++) real_container.__parent__
+<CompositePage at /Plone/selenium>

@@ -1,0 +1,50 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="collective.compositepage">
+
+  <include package="plone.app.contentmenu" />
+
+  <browser:resourceDirectory
+    name="compositepage"
+    directory="resources"
+    />
+
+  <browser:page
+    for="collective.compositepage.interfaces.ICompositePage"
+    name="compositepage_view"
+    class=".compositepage.View"
+    template="templates/compositepage.pt"
+    permission="zope2.View"
+    layer="..interfaces.ILayer"
+    />
+
+  <browser:page
+    for="collective.compositepage.interfaces.ICompositePage"
+    name="compositepage_tools"
+    class=".tools.View"
+    template="templates/tools.pt"
+    permission="cmf.ModifyPortalContent"
+    layer="..interfaces.ILayer"
+    />
+
+  <browser:page
+    for="collective.compositepage.interfaces.ICompositePage"
+    name="storage_view"
+    class=".tilestorage.StorageView"
+    permission="cmf.ManagePortal"
+    layer="..interfaces.ILayer"
+    />
+
+  <browser:pages
+    for="collective.compositepage.interfaces.ICompositePage"
+    class=".ajax.View"
+    permission="cmf.ModifyPortalContent"
+    layer="..interfaces.ILayer">
+    <browser:page name="save-html" attribute="save" />
+    <browser:page name="revert-html" attribute="revert" />
+  </browser:pages>
+
+</configure>

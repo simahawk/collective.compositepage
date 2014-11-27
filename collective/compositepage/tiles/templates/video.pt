@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xml:lang="en"
+    lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    metal:use-macro="context/tiles_macros/main"
+    i18n:domain="collective.compositepage">
+
+  <metal:content metal:fill-slot="content">
+    <div class="container-narrow">
+        <div class="row">
+            <section class="col-md-12" id="about-sauce">
+                <div class="col-md-6 video-text">
+                    <h1 tal:content="view/head_title">How it works</h1>
+                    <p class="large-intro"
+                       tal:content="view/text">Founded by the original creator of Selenium, Sauce helps you scale your Selenium testing. Watch how in this video or start testing below.</p>
+                </div>
+                <div class="col-md-6 video-player">
+                    <div class="video-wrapper">
+                        <iframe
+                            width="560"
+                            height="315"
+                            src="//www.youtube.com/embed/H7AKpNJcfSU"
+                            frameborder="0"
+                            allowfullscreen
+                            tal:attributes="width view/width;
+                                            height view/height;
+                                            src view/video_url">
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+  </metal:content>
+</html>

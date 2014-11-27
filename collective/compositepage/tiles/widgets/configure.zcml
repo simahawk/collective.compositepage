@@ -1,0 +1,24 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="plone">
+
+    <!-- <browser:resource name="plone.app.imagetile.png" file="tile.png" /> -->
+
+    <class class=".imagewidget.ImageWidget">
+      <require
+          permission="zope.Public"
+          interface=".imagewidget.IImageWidget"
+        />
+    </class>
+
+    <z3c:widgetTemplate
+        mode="input"
+        widget=".imagewidget.IImageWidget"
+        layer="...interfaces.ILayer"
+        template="imagewidget_input.pt"
+        />
+
+</configure>

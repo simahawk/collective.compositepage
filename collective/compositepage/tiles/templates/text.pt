@@ -1,0 +1,11 @@
+<html metal:use-macro="context/tiles_macros/main">
+  <metal:content metal:fill-slot="content">
+    <div class="box-content">
+      <div tal:replace="structure view/text_output">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+      </div>
+    </div>
+  </metal:content>
+</html>
+

@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="collective.compositepage"
+      metal:define-macro="main">
+  <body>
+    <div class="tile"
+         tal:attributes="id view/id;">
+        <div tal:condition="view/can_modify"
+             class="tile-edit-wrapper">
+          <div class="tile-actions">
+            <a href=""
+               class="edit-tile btn btn-default"
+               tal:attributes="href view/edit_url"
+               ><span class="fa fa-pencil"></span>
+               <span i18n:translate="">Edit</span></a>
+            <a href=""
+               class="delete-tile btn btn-danger"
+               tal:attributes="href string:./@@delete-tile/${view/id}"
+               ><span class="fa fa-trash-o"></span>
+               <span i18n:translate="">Delete</span></a>
+          </div>
+          <span class="handle fa fa-ellipsis-v fa-2x"></span>
+        </div>
+        <div class="tile-content-wrapper"
+             tal:define="styles view/forced_styles"
+             tal:attributes="id view/computed_id;
+                             class string:tile-content-wrapper ${view/css_class};
+                             style python: styles and styles or None">
+          <div class="tile-header">
+            <metal:header metal:define-slot="header">
+              <h2 tal:condition="view/show_title"
+                  tal:content="view/title"
+                  />
+            </metal:header>
+          </div>
+          <div class="tile-content">
+            <metal:content metal:define-slot="content">
+            </metal:content>
+          </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="collective.compositepage">
+
+  <metal:image-listing define-macro="image-listing">
+    <ul class="customers-list">
+        <tal:item repeat="item images">
+            <li class="customer"
+                data-customer="paypal"
+                tal:attributes="class item/getId;
+                                data-customer item/getId">
+                <img
+                    tal:attributes="src item/getURL;
+                                    alt item/Title;
+                                    title item/Title"
+                                    />
+            </li>
+        </tal:item>
+    </ul>
+  </metal:image-listing>
+
+</html>

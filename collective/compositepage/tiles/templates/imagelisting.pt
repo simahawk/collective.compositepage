@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xml:lang="en"
+    lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    metal:use-macro="context/tiles_macros/main"
+    i18n:domain="collective.compositepage">
+
+  <metal:header metal:fill-slot="header" />
+  <metal:content metal:fill-slot="content">
+
+    <h2 tal:condition="view/show_title"
+        tal:content="view/title">Love from our customers</h2>
+    <div class="top-text"
+         tal:condition="view/top_text"
+         tal:content="structure python: view.text_output('top_text')">text</div>
+    <div tal:define="images view/get_items">
+        <metal:listing use-macro="context/tiles_macros/image-listing" />
+    </div>
+    <div class="bottom-text"
+         tal:condition="view/bottom_text"
+         tal:content="structure python: view.text_output('bottom_text')">text</div>
+
+  </metal:content>
+</html>
