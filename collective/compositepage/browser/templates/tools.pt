@@ -58,15 +58,19 @@
         <div class="sort-buttons-template" style="display:none">
           <div class="btn-group sort-buttons">
             <button class="btn move move-down" title="Move down">
-                <span class="glyphicon glyphicon-arrow-down"></span></button>
+                <span class="glyphicon glyphicon-arrow-down"></span>
+            </button>
             <button class="btn move move-up" title="Move up">
-                <span class="glyphicon glyphicon-arrow-up"></button>
+                <span class="glyphicon glyphicon-arrow-up"></span>
+            </button>
             <button class="btn move move-bottom" title="Move bottom">
-                <span class="glyphicon glyphicon-chevron-down"></button>
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </button>
             <button class="btn move move-top" title="Move top">
-                <span class="glyphicon glyphicon-chevron-up"></button>
+                <span class="glyphicon glyphicon-chevron-up"></span>
+            </button>
           </div>
-        </span>
+        </div>
     </div>
 
 </html>
