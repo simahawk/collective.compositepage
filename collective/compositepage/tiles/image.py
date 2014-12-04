@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from plone.app.textfield import RichText
+from plone.supermodel import model
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -11,6 +12,21 @@ from .. import _
 
 
 class IImageListingTile(IRelatedContainerSchema):
+
+    model.fieldset(
+        'top',
+        label=u"Top",
+        fields=[
+            'top_text',
+        ]
+    )
+    model.fieldset(
+        'bottom',
+        label=u"Bottom",
+        fields=[
+            'bottom_text',
+        ]
+    )
 
     top_text = RichText(
         title=_(u'Top text'),

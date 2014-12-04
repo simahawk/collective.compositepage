@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import logging
+logger = logging.getLogger(__file__)
+
 from zope.interface import alsoProvides
 from zope.interface import implements
 from zope.interface import Interface
@@ -54,6 +57,7 @@ class ILinkedResource(model.Schema):
                       u'`option:value, option2:value`.'
                       u'Valid options are: `label`, `css_class`., '),
         required=False,  # we can use also relatedItems
+        default=u''
     )
 
 alsoProvides(ILinkedResource, IFormFieldProvider)
@@ -83,14 +87,25 @@ class ResourceURLGetter(object):
     def __init__(self, context):
         self.context = context
 
+    def url(self):
+        if self.context.remote_url:
+            return self.context.remote_url
+        res = self.resources()
+        if len(res) == 1:
+            return res[0]['url']
+        return ''
+
     def remote_url(self):
         return self.context.remote_url
 
     def resources(self):
         res = []
         res_cta = self.parse_cta_options()
-        for i, rel_value in enumerate(self.context.related_resources):
+        for i, rel_value in enumerate(self.context.related_resources or []):
             obj = rel_value.to_object
+            if obj is None:
+                logger.warning('broken references')
+                continue
             try:
                 cta = res_cta[i]
             except IndexError:

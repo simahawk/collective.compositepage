@@ -230,14 +230,14 @@
 
         init_sorting_actions: function(){
             var self = this,
-                buttons = $('.sort-buttons').html();
-
+                buttons = $($('.sort-buttons-template').get(0)).html();
+            console.log(buttons);
             $('.sorting-enabled .tile-actions').each(function(){
                 $(this).find('.sort-buttons').remove();
                 $(this).append(buttons);
             });
-            $('.move-up:first, .move-top:first').addClass('disabled');
-            $('.move-down:last, .move-bottom:last').addClass('disabled');
+            $('.tile-actions .move-up:first, .tile-actions .move-top:first').addClass('disabled');
+            $('.tile-actions .move-down:last, .tile-actions .move-bottom:last').addClass('disabled');
             $('.move-down').not('.disabled').click(function(){
                 self.manager.move(this, 'down');
                 self.init_sorting_actions();
