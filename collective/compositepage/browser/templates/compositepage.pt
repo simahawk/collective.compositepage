@@ -34,26 +34,9 @@
 
     </div>
 
-      <div class="clearfix"></div>
+    <div tal:replace="structure provider:plone.abovecontentbody" />
 
-      <div tal:replace="structure context/@@compositepage_tools" />
-
-      <div class="container-narrow">
-        <div class="placeholder" />
-      </div>
-
-      <div class="composite-wrapper sorting-enabled"
-           tal:attributes="data-baseurl context/absolute_url">
-
-          <div tal:replace="structure view/tiles" />
-
-      </div>
-
-      <div class="bottom-tools">
-        <div tal:replace="structure context/@@compositepage_tools" />
-      </div>
-
-    </div>
+  </div>
 
 </metal:main>
 

@@ -4,8 +4,7 @@ from zope import interface
 from zope import component
 from zope import annotation
 
-
-from .interfaces import ICompositePage
+from .interfaces import IComposable
 from .interfaces import ILayoutManager
 
 
@@ -14,7 +13,7 @@ KEY = 'collective.compositepage.layout'
 
 class LayoutManager(object):
     interface.implements(ILayoutManager)
-    component.adapts(ICompositePage)
+    component.adapts(IComposable)
 
     def __init__(self):
         # Does not expect argument as usual adapters

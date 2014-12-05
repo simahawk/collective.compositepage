@@ -22,7 +22,7 @@
     />
 
   <browser:page
-    for="collective.compositepage.interfaces.ICompositePage"
+    for="collective.compositepage.interfaces.IComposable"
     name="compositepage_tools"
     class=".tools.View"
     template="templates/tools.pt"
@@ -31,7 +31,7 @@
     />
 
   <browser:page
-    for="collective.compositepage.interfaces.ICompositePage"
+    for="collective.compositepage.interfaces.IComposable"
     name="storage_view"
     class=".tilestorage.StorageView"
     permission="cmf.ManagePortal"
@@ -39,12 +39,22 @@
     />
 
   <browser:pages
-    for="collective.compositepage.interfaces.ICompositePage"
+    for="collective.compositepage.interfaces.IComposable"
     class=".ajax.View"
     permission="cmf.ModifyPortalContent"
     layer="..interfaces.ILayer">
     <browser:page name="save-html" attribute="save" />
     <browser:page name="revert-html" attribute="revert" />
   </browser:pages>
+
+  <browser:viewlet
+    for="collective.compositepage.interfaces.IComposable"
+    name="composite.tools"
+    manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+    class=".viewlets.CompositeToolsViewlet"
+    permission="zope2.View"
+    layer="..interfaces.ILayer"
+    template="templates/viewlet_tools.pt"
+    />
 
 </configure>

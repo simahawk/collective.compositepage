@@ -8,8 +8,6 @@ from Products.ResourceRegistries.tools.packer import CSSPacker
 from plone.memoize import ram
 from plone.uuid.interfaces import IUUID
 
-from ..interfaces import ILayoutManager
-
 
 REFRESH_INTERVAL = 1800
 
@@ -30,10 +28,6 @@ def _css_cachekey(method, self):
 
 
 class View(BrowserView):
-
-    def tiles(self):
-        manager = ILayoutManager(self.context)
-        return manager.html()
 
     @property
     def css_class(self):

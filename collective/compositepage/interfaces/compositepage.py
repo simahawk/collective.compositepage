@@ -9,7 +9,15 @@ from plone.autoform import directives as form
 from collective.compositepage import _
 
 
-class ICompositePage(Interface):
+class IComposable(Interface):
+    """ Objects marked with this interface
+    gain composite tools and storage.
+    This allow us to give composite tools features
+    to objects that are not CompositePage.
+    """
+
+
+class ICompositePage(IComposable):
 
     show_title = schema.Bool(
         title=_(u'Show title?'),

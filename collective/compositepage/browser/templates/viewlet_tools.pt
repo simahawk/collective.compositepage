@@ -1,0 +1,22 @@
+<div class="composite-wrapper sorting-enabled"
+     tal:attributes="class python:'composite-wrapper sorting-enabled' + (view.can_modify() and ' editable' or '');
+                     data-baseurl context/absolute_url">
+
+    <div class="clearfix"></div>
+
+    <div tal:replace="structure context/@@compositepage_tools" />
+
+    <div class="container-narrow">
+      <div class="placeholder" />
+    </div>
+
+    <div class="tiles-container">
+        <div tal:replace="structure view/tiles" />
+    </div>
+
+    <div class="bottom-tools">
+      <div tal:replace="structure context/@@compositepage_tools" />
+    </div>
+
+    <div class="clearfix"></div>
+</div>

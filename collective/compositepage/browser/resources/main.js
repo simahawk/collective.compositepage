@@ -261,10 +261,11 @@
         var self = this;
         $.extend(self, settings);
         self.wrapper = $(wrapper);
+        self.tiles_container = self.wrapper.find('.tiles-container');
         self.baseurl = self.wrapper.data('baseurl');
         self.tools = self.init_tools();
         self.tiles = self.load_tiles();
-        self.placeholder = $('.placeholder');
+        self.placeholder = $('.placeholder', self.wrapper);
         self.init_showhide_actions();
     };
 
@@ -272,7 +273,7 @@
 
         load_tiles: function () {
             var self = this,
-                data = self.wrapper.find('div[data-tile]');
+                data = self.tiles_container.find('div[data-tile]');
             return $.map(
                 data,
                 function(item) {
@@ -321,7 +322,7 @@
                 $.get(this, function() {});
             });
 
-            $('> div', self.wrapper).each(function(){
+            $('> div', self.tiles_container).each(function(){
               html += self.outer_html(this);
             });
 
@@ -374,7 +375,7 @@
                         tile = $('<div data-tile="./' + xhr.getResponseHeader('X-Tile-Url') + '"></div>');
                         tile.html(result);
                         self.placeholder.empty();
-                        self.wrapper.append(tile);
+                        self.tiles_container.append(tile);
                         self.tiles.push(new composite.Tile(self, tile));
                         self.save(true);
                         self.update_status('info', 'Tile added.', true)
@@ -416,7 +417,7 @@
             composite.formUnloadProtection();
             var init_js_event = new Event('init-js');
             // Dispatch the event.
-            self.wrapper.trigger(init_js_event);
+            self.tiles_container.trigger(init_js_event);
         },
 
         move: function (el, action){
@@ -446,10 +447,10 @@
                     };
                     break;
                 case 'top':
-                    $(current).prependTo(self.wrapper);
+                    $(current).prependTo(self.tiles_container);
                     break;
                 case 'bottom':
-                    $(current).appendTo(self.wrapper);
+                    $(current).appendTo(self.tiles_container);
                     break;
             }
             composite.scroll_to(current);
