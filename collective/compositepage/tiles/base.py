@@ -114,6 +114,10 @@ class BasePersistentTile(tiles.PersistentTile):
         return "./@@edit-tile/{0}/{1}".format(self.__name__, self.id)
 
     @property
+    def delete_url(self):
+        return "./@@delete-tile/{0}".format(self.id)
+
+    @property
     def title(self):
         return self.data['title']
 

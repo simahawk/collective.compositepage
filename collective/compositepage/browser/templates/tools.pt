@@ -32,7 +32,7 @@
             </dl>
 
             <!-- <a class="btn btn-revert revert">Revert</a> -->
-            <a class="btn btn-primary save disabled">Save</a>
+            <a class="btn btn-primary save">Save</a>
 
             <div class="btn-group">
               <button type="button"

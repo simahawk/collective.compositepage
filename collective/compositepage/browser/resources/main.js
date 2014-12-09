@@ -171,9 +171,9 @@
 
         init_actions: function () {
             var self = this;
-            self.init_edit_actions();
-            self.init_delete_actions();
-            self.init_sorting_actions();
+            // self.init_edit_actions();
+            // self.init_delete_actions();
+            // self.init_sorting_actions();
         },
 
         // ogni link delete-tile deve richiamare la relativa vista
@@ -286,7 +286,7 @@
             var self = this,
                 tools = $('.composite-tools');
             $('a.btn.save', tools).click(function(){
-                self.save();
+                self.save(true);
                 // XXX: use events to save
             });
 
@@ -321,7 +321,6 @@
             $.each(composite.to_delete, function(){
                 $.get(this, function() {});
             });
-
             $('> div', self.tiles_container).each(function(){
               html += self.outer_html(this);
             });
@@ -334,8 +333,8 @@
               function(data) {
                 if(!data.error){
                     save_btn.removeClass('btn-primary')
-                        .addClass('btn-success')
-                        .addClass('disabled');
+                        .addClass('btn-success');
+                        // .addClass('disabled');
                     self.update_status('success', 'Layout saved.', true)
                 }
               },
@@ -375,7 +374,8 @@
                         tile = $('<div data-tile="./' + xhr.getResponseHeader('X-Tile-Url') + '"></div>');
                         tile.html(result);
                         self.placeholder.empty();
-                        self.tiles_container.append(tile);
+                        $('.tile-target.current')
+                            .removeClass('current').append(tile);
                         self.tiles.push(new composite.Tile(self, tile));
                         self.save(true);
                         self.update_status('info', 'Tile added.', true)
@@ -388,15 +388,16 @@
         },
 
         outer_html: function (el){
-            var html = $(el).clone().empty().wrap('<div>').parent().html();
-            var el = $(html).get(0);
-            for (var i=0; i<el.attributes.length; i++){
-                if (el.attributes[i].name != 'data-tile'){
-                    console.log('removed attr: ' + el.attributes[i].name)
-                    el.removeAttribute(el.attributes[i].name);
-                }
-            }
-            console.log(el.outerHTML);
+            var html = $(el).clone().wrap('<div>').parent().html();
+
+            var el = $(html).find('[data-tile]').empty().end().get(0);
+            console.log(el);
+            // for (var i=0; i<el.attributes.length; i++){
+            //     if (el.attributes[i].name != 'data-tile'){
+            //         console.log('removed attr: ' + el.attributes[i].name)
+            //         el.removeAttribute(el.attributes[i].name);
+            //     }
+            // }
             return el.outerHTML;
         },
 
@@ -513,8 +514,159 @@
 
     $(document).ready(function () {
         composite.initTileManager();
-    });
+
+        $('.tiles-container').css({
+            'min-height': '10em'
+        });
+
+        var available_tiles = [];
+        $.get(
+            './available-tiles',
+            function(data) {
+                if(!data.error){
+                    available_tiles = data.tiles;
+                }
+            },
+            'json'
+        );
+
+        var tiles_tile_menu = function (sel){
+            $.contextMenu({
+                selector: sel,
+                build: function($trigger, e) {
+                    // this callback is executed every time the menu is to be shown
+                    // its results are destroyed every time the menu is hidden
+                    // e is the original contextmenu event, containing e.pageX and e.pageY (amongst other data)
+                    var items = {};
+                    // items["edit"] = {
+                    //     name: "Edit",
+                    //     // superseeds "global" callback
+                    //     callback: function(key, options) {
+                    //         // delete storage
+                    //         $.get(options.$trigger.data('deleteurl'),
+                    //               function() {});
+                    //         // delete html
+                    //         options.$trigger.parent().remove();
+                    //     }
+                    // };
+                    items["delete"] = {
+                        name: "Delete",
+                        // superseeds "global" callback
+                        callback: function(key, options) {
+                            var dialog = confirm("Are you sure?");
+                            if (dialog== true) {
+                                // delete storage
+                                $.get(options.$trigger.data('deleteurl'),
+                                      function() {});
+                                // delete html
+                                options.$trigger.parent().remove();
+                            }
+                        }
+                    };
+                    return {
+                        callback: function(key, options) {
+                            var m = "clicked: " + key;
+                            window.console && console.log(m) || alert(m);
+                        },
+                        items: items
+                    };
+                }
+            });
+        }
+
+        var tiles_col_menu = function (sel){
+            $.contextMenu({
+                selector: sel,
+                build: function($trigger, e) {
+                    // this callback is executed every time the menu is to be shown
+                    // its results are destroyed every time the menu is hidden
+                    // e is the original contextmenu event, containing e.pageX and e.pageY (amongst other data)
+                    var items = {};
+                    $.each(available_tiles, function(i){
+                        var item = available_tiles[i];
+                        items[item.name] = {
+                            name: item.title,
+                            callback: function(){
+                                $trigger.addClass('current');
+                                $('a[data-tiletype="' + item.name + '"]').trigger('click');
+                            }
+                        }
+                    });
+                    items["delete"] = {
+                        name: "Delete",
+                        // superseeds "global" callback
+                        callback: function(key, options) {
+                            options.$trigger.remove();
+                        }
+                    };
+                    console.log(items);
+                    return {
+                        callback: function(key, options) {
+                            var m = "clicked: " + key;
+                            window.console && console.log(m) || alert(m);
+                        },
+                        items: items
+                    };
+                }
+            });
+        }
+        var tiles_row_menu = function(sel){
+            console.log(sel);
+            $.contextMenu({
+                selector: sel,
+                callback: function(key, options) {
+                    var m = "global: " + key;
+                    window.console && console.log(m) || alert(m);
+                },
+                items: {
+                    "add-col": {
+                        name: "Add col",
+                        // superseeds "global" callback
+                        callback: function(key, options) {
+                            options.$trigger.append(
+                                '<div class="tile-col tile-target span1" />'
+                            );
+                            tiles_col_menu('.tile-col');
+                        }
+                    },
+                    "delete": {
+                        name: "Delete",
+                        // superseeds "global" callback
+                        callback: function(key, options) {
+                            options.$trigger.remove();
+                        }
+                    },
+                    "quit": {name: "Quit", icon: "quit"}
+                }
+            });
+        };
+        var tiles_context_menu = function(sel){
+            $.contextMenu({
+                selector: sel,
+                callback: function(key, options) {
+                    var m = "global: " + key;
+                    window.console && console.log(m) || alert(m);
+                },
+                items: {
+                    "add-row": {
+                        name: "Add row",
+                        // superseeds "global" callback
+                        callback: function(key, options) {
+                            options.$trigger.append(
+                                '<div class="tile-row" />'
+                            );
+                            tiles_row_menu('.tile-row');
+                        }
+                    },
+                    "quit": {name: "Quit", icon: "quit"}
+                }
+            });
+        };
+        tiles_context_menu('.tiles-container');
+        tiles_row_menu('.tile-row');
+        tiles_col_menu('.tile-col');
+        tiles_tile_menu('div[data-tile] .tile');
+
+    }); // ready
 
 }(jQuery));
-
-

@@ -2,19 +2,27 @@
 <object name="portal_javascripts">
 
   <javascript
+    id="++resource++compositepage/contextmenu/jquery.ui.position.js"
+    cacheable="True" compression="safe"
+    authenticated="True" cookable="True"
+    enabled="True" expression=""
+    inline="False"
+    />
+
+  <javascript
+    id="++resource++compositepage/contextmenu/jquery.contextMenu.js"
+    cacheable="True" compression="safe"
+    authenticated="True" cookable="True"
+    enabled="True" expression=""
+    inline="False"
+    />
+
+  <javascript
     id="++resource++compositepage/main.js"
     cacheable="True" compression="safe"
     authenticated="True" cookable="True"
     enabled="True" expression=""
     inline="False"
     />
-<!--
-  <javascript
-    id="++resource++compositepage/public.js"
-    cacheable="True" compression="safe"
-    authenticated="False" cookable="True"
-    enabled="True" expression=""
-    inline="False"
-    /> -->
 
 </object>

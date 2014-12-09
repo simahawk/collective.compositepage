@@ -7,23 +7,13 @@
       metal:define-macro="main">
   <body>
     <div class="tile"
-         tal:attributes="id view/id;">
-        <div tal:condition="view/can_modify"
+         tal:attributes="id             view/id;
+                         data-editurl   view/edit_url;
+                         data-deleteurl view/delete_url;">
+        <!-- <div tal:condition="view/can_modify"
              class="tile-edit-wrapper">
-          <div class="tile-actions">
-            <a href=""
-               class="edit-tile btn btn-default"
-               tal:attributes="href view/edit_url"
-               ><span class="fa fa-pencil"></span>
-               <span i18n:translate="">Edit</span></a>
-            <a href=""
-               class="delete-tile btn btn-danger"
-               tal:attributes="href string:./@@delete-tile/${view/id}"
-               ><span class="fa fa-trash-o"></span>
-               <span i18n:translate="">Delete</span></a>
-          </div>
           <span class="handle fa fa-ellipsis-v fa-2x"></span>
-        </div>
+        </div> -->
         <div class="tile-content-wrapper"
              tal:define="styles view/forced_styles"
              tal:attributes="id view/computed_id;

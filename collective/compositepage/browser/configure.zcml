@@ -45,6 +45,7 @@
     layer="..interfaces.ILayer">
     <browser:page name="save-html" attribute="save" />
     <browser:page name="revert-html" attribute="revert" />
+    <browser:page name="available-tiles" attribute="available_tiles" />
   </browser:pages>
 
   <browser:viewlet
