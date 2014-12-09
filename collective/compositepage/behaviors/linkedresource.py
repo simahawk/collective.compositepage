@@ -127,7 +127,10 @@ class ResourceURLGetter(object):
 
     def parse_cta_options(self):
         opts = []
-        for line in self.context.related_resources_cta.splitlines():
+        text = self.context.related_resources_cta
+        if not text:
+            return opts
+        for line in text.splitlines():
             if not line.strip():
                 # empty line
                 continue
