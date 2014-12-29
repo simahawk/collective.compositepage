@@ -2,6 +2,7 @@
 
 from zope import schema
 from zope.component import queryMultiAdapter
+from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from plone.formwidget.contenttree import ObjPathSourceBinder
@@ -29,6 +30,23 @@ class IRelatedContainerSchema(IBaseTileSchema):
         source=PathSourceBinder(portal_type=('Folder', 'Collection'))
     )
 
+    form.widget(related_types=CheckBoxFieldWidget)
+    related_types = schema.List(
+        title=_(u"Types to list"),
+        description=_(u'This may have no effect '
+                      U'if you are linking collections.'),
+        required=False,
+        value_type=schema.Choice(
+            title=u"Multiple",
+            vocabulary='plone.app.vocabularies.UserFriendlyTypes'
+        )
+    )
+    limit = schema.Int(
+        title=_(u'Limit'),
+        default=10,
+        required=True,
+    )
+
 
 class RelatedContainerTile(BasePersistentTile):
 
@@ -47,8 +65,9 @@ class RelatedContainerTile(BasePersistentTile):
 
     @property
     def base_query(self):
+        ptypes = self.data['related_types'] or self.ptype
         query = {
-            'portal_type': self.ptype,
+            'portal_type': ptypes,
             'sort_on': 'getObjPositionInParent',
         }
         return query
@@ -78,10 +97,10 @@ class RelatedContainerTile(BasePersistentTile):
         if is_collection(container):
             query.update(get_collection_query(container))
 
-        # make sure we look only for our ctype!
-        query['portal_type'] = self.ptype
-
-        brains = self.catalog(query)[:self.limit]
+        brains = self.catalog(query)
+        limit = self.data['limit'] or self.limit
+        if limit:
+            brains = brains[:limit]
 
         return brains
 
