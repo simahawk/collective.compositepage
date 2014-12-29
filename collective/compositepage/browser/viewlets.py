@@ -17,3 +17,12 @@ class CompositeToolsViewlet(ViewletBase):
     def can_modify(self):
         return checkPermission('cmf.ModifyPortalContent',
                                self.context)
+
+    @property
+    def context_state(self):
+        return self.context.restrictedTraverse('@@plone_context_state')
+
+    def visible(self):
+        """ make sure we make it visible only on view
+        """
+        return self.context_state.is_view_template()

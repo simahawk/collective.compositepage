@@ -1,4 +1,5 @@
-<div class="composite-wrapper sorting-enabled"
+<div tal:condition="view/visible"
+     class="composite-wrapper sorting-enabled"
      tal:attributes="class python:'composite-wrapper sorting-enabled' + (view.can_modify() and ' editable' or '');
                      data-baseurl context/absolute_url">
 
