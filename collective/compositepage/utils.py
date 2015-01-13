@@ -20,7 +20,8 @@ from Products.PageTemplates.ZopePageTemplate import ZopePageTemplate
 
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.outputfilters.interfaces import IFilter
-from plone.app.collection.interfaces import ICollection
+from plone.app.collection.interfaces import ICollection as IOldCollection
+from plone.app.contenttypes.interfaces import ICollection
 from plone.app.querystring import queryparser
 
 
@@ -82,14 +83,20 @@ def normalize(astring):
 def is_collection(obj):
     """ return true if given obj is a plone collection
     """
-    return IATTopic.providedBy(obj) or ICollection.providedBy(obj)
+    return IATTopic.providedBy(obj) or \
+        ICollection.providedBy(obj) or \
+        IOldCollection.providedBy(obj)
 
 
 def parse_new_collection_query(context):
     """ given a new collection item returns its catalgo query
     """
     parse = queryparser.parseFormquery
-    query = parse(context, context.getRawQuery())
+    if hasattr(context, 'getRawQuery'):
+        # BBB compat
+        query = parse(context, context.getRawQuery())
+    else:
+        query = parse(context, context.query)
     # sorting params do not come from query parsing
     if hasattr(context, 'sort_on'):
         query['sort_on'] = context.sort_on

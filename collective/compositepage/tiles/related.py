@@ -46,13 +46,23 @@ class IRelatedContainerSchema(IBaseTileSchema):
         default=10,
         required=True,
     )
+    subfolders = schema.Bool(
+        title=_(u'Look into subfolders too?'),
+        default=False,
+    )
 
 
 class RelatedContainerTile(BasePersistentTile):
 
     ptype = 'Image'
     limit = 1
-    items_search_depth = 1
+
+    @property
+    def items_search_depth(self):
+        subfolders = self.data['subfolders']
+        if subfolders:
+            return -1
+        return 1
 
     @property
     def ps(self):
@@ -68,10 +78,12 @@ class RelatedContainerTile(BasePersistentTile):
         ptypes = self.data['related_types'] or self.ptype
         query = {
             'portal_type': ptypes,
-            'sort_on': 'getObjPositionInParent',
+            'sort_on': 'effective',
+            'sort_order': 'reverse',
         }
         return query
 
+    @view.memoize
     def get_container(self):
         if not self.data['source_context']:
             return None
@@ -95,8 +107,8 @@ class RelatedContainerTile(BasePersistentTile):
             'depth': self.items_search_depth,
         }
         if is_collection(container):
+            query.pop('path')
             query.update(get_collection_query(container))
-
         brains = self.catalog(query)
         limit = self.data['limit'] or self.limit
         if limit:
