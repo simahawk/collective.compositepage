@@ -33,6 +33,7 @@ setup(name='collective.compositepage',
           'plone.behavior',
           'plone.dexterity',
           'plone.app.dexterity',
+          'collective.z3cform.aceeditorwidget',
       ],
       entry_points="""
       # -*- Entry points: -*-
