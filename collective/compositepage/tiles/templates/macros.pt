@@ -18,7 +18,7 @@
                <span i18n:translate="">Edit</span></a>
             <a href=""
                class="delete-tile btn btn-danger"
-               tal:attributes="href string:./@@delete-tile/${view/id}"
+               tal:attributes="href view/delete_url"
                ><span class="fa fa-trash-o"></span>
                <span i18n:translate="">Delete</span></a>
           </div>
