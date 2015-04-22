@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 from zope import schema
 from zope.component import queryMultiAdapter
@@ -10,7 +10,7 @@ from plone.formwidget.contenttree import ObjPathSourceBinder
 import plone.api
 from plone.memoize import view
 from plone.autoform import directives as form
-from plone.formwidget.contenttree import PathSourceBinder
+from plone.formwidget.contenttree import UUIDSourceBinder
 from plone.formwidget.contenttree import ContentTreeFieldWidget
 
 from .base import BasePersistentTile
@@ -27,7 +27,7 @@ class IRelatedContainerSchema(IBaseTileSchema):
         title=_(u"Folder or collection"),
         # description=_(u""),
         required=False,
-        source=PathSourceBinder(portal_type=('Folder', 'Collection'))
+        source=UUIDSourceBinder(portal_type=('Folder', 'Collection'))
     )
 
     form.widget(related_types=CheckBoxFieldWidget)
@@ -83,27 +83,30 @@ class RelatedContainerTile(BasePersistentTile):
         }
         return query
 
-    @view.memoize
+    # @view.memoize
     def get_container(self):
         if not self.data['source_context']:
             return None
-        portal = self.ps.portal()
-        path = to_portal_abs_path(portal, self.data['source_context'])
+        # portal = self.ps.portal()
+        # path = to_portal_abs_path(portal, self.data['source_context'])
         # no security check here, we only need to check
         # if the container exists and get its path later
         # and it might be in private state, but we want
         # its contents nonetheless.
-        container = portal.unrestrictedTraverse(path, None)
+        # container = portal.unrestrictedTraverse(path, None)
+        brain = self.catalog(UID=self.data['source_context'])
+        container = brain and brain[0] or None
         return container
 
-    @view.memoize
+    # @view.memoize
     def get_items(self):
         container = self.get_container()
         if container is None:
             return []
         query = self.base_query.copy()
+        path = container.getPath()
         query['path'] = {
-            'query': '/'.join(container.getPhysicalPath()),
+            'query': path,
             'depth': self.items_search_depth,
         }
         if is_collection(container):
