@@ -413,9 +413,9 @@
             ploneFormTabbing.initialize();
             composite.autocomplete();
             composite.formUnloadProtection();
-            var init_js_event = new Event('init-js');
+            $('.aceeditor-wrapper').aceedit();
             // Dispatch the event.
-            self.tiles_container.trigger(init_js_event);
+            self.tiles_container.trigger('init-js');
         },
 
         move: function (el, action){
