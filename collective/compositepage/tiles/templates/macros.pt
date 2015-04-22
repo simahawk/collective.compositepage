@@ -53,20 +53,22 @@
       i18n:domain="collective.compositepage">
 
   <metal:image-listing define-macro="image-listing">
-    <ul class="customers-list">
-        <tal:item repeat="item images">
-            <li class="customer"
-                data-customer="paypal"
-                tal:attributes="class item/getId;
-                                data-customer item/getId">
-                <img
-                    tal:attributes="src item/getURL;
-                                    alt item/Title;
-                                    title item/Title"
-                                    />
-            </li>
-        </tal:item>
-    </ul>
+    <div class="image-listing">
+      <div class="container">
+        <ul class="list-inline">
+          <tal:item repeat="item images">
+              <li tal:attributes="class item/getId;
+                                  data-marker item/getId">
+                  <img
+                      tal:attributes="src item/getURL;
+                                      alt item/Title;
+                                      title item/Title"
+                                      />
+              </li>
+          </tal:item>
+        </ul>
+      </div>
+    </div>
   </metal:image-listing>
 
 </html>
