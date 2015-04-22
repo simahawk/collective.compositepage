@@ -88,10 +88,14 @@ class IBaseTileSchema(model.Schema):
         required=False,
     )
 
+    model.fieldset('images',
+                   label=_(u"Images"),
+                   fields=['background_image',
+                           ])
+
     model.fieldset('block_styles',
                    label=_(u"Block styles"),
                    fields=['predefined_style',
-                           'background_image',
                            'height',
                            'width',
                            'padding',
