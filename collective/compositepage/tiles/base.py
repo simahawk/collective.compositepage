@@ -148,7 +148,7 @@ class BasePersistentTile(tiles.PersistentTile):
         Resulting url is the same of what you can get view ZPT like this:
         ${context/absolute_url}/${view/__name__}/${view/id}/@@download/$fname
         """
-        if not fname in self.data:
+        if fname not in self.data:
             return ''
         url = '/'.join([
             self.context.absolute_url(),
@@ -184,7 +184,11 @@ class BasePersistentTile(tiles.PersistentTile):
                 styles += '{0}:{1};'.format(i, self.data.get(i))
         if self.data.get('background_image'):
             url = self.download_url('background_image')
-            styles += 'background:url({0}) no-repeat top left;'.format(url)
+            styles += ''.join([
+                'background-image:url({0});'.format(url),
+                'background-repeat:no-repeat;',
+                'background-position:top left;',
+            ])
         if self.data.get('extra_inline_style'):
             styles += self.data.get('extra_inline_style').lstrip(';')
         return styles
