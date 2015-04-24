@@ -125,7 +125,7 @@ class BasePersistentTile(tiles.PersistentTile):
     def title(self):
         return self.data['title']
 
-    def Title(self):
+    def Title(self):  # noqa
         """ needed for @@images scale tag traversal
             (uses the title of the tile for the image tag title)
         """
@@ -175,6 +175,10 @@ class BasePersistentTile(tiles.PersistentTile):
     def css_class(self):
         styles = list(self.data.get('predefined_style') or [])
         styles.append(self.__name__.replace('.', '-'))
+        if not self.data.get('background_image'):
+            # we assume every bg predef style ends w/ '-bg'
+            if not [x for x in styles if x.endswith('-bg')]:
+                styles.append('no-background-image')
         return ' '.join(styles)
 
     def forced_styles(self):

@@ -17,7 +17,6 @@ from .base import BasePersistentTile
 from .base import IBaseTileSchema
 from ..utils import is_collection
 from ..utils import get_collection_query
-from ..utils import to_portal_abs_path
 from .. import _
 
 
@@ -56,6 +55,7 @@ class RelatedContainerTile(BasePersistentTile):
 
     ptype = 'Image'
     limit = 1
+    filtering_keys = ()
 
     @property
     def items_search_depth(self):
@@ -73,6 +73,13 @@ class RelatedContainerTile(BasePersistentTile):
     def catalog(self):
         return plone.api.portal.get_tool("portal_catalog")
 
+    def prepare_filters(self, request):
+        res = {}
+        for k in self.filtering_keys:
+            if k in request:
+                res[k] = request.get(k)
+        return res
+
     @property
     def base_query(self):
         ptypes = self.data['related_types'] or self.ptype
@@ -81,9 +88,14 @@ class RelatedContainerTile(BasePersistentTile):
             'sort_on': 'effective',
             'sort_order': 'reverse',
         }
+        parent_request = self.request.get('PARENT_REQUEST')
+        if parent_request and self.filtering_keys:
+            # we are in subrequest! just get any possibile
+            # filtering here from parent request qstring
+            query.update(self.prepare_filters(parent_request))
         return query
 
-    # @view.memoize
+    @view.memoize
     def get_container(self):
         if not self.data['source_context']:
             return None
@@ -98,7 +110,7 @@ class RelatedContainerTile(BasePersistentTile):
         container = brain and brain[0] or None
         return container
 
-    # @view.memoize
+    @view.memoize
     def get_items(self):
         container = self.get_container()
         if container is None:

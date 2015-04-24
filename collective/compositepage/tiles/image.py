@@ -2,6 +2,7 @@
 
 from plone.app.textfield import RichText
 from plone.supermodel import model
+from plone.autoform import directives as form
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -39,11 +40,13 @@ class IImageListingTile(IRelatedContainerSchema):
         description=_(u'Text below image listing'),
         required=False,
     )
+    form.omitted('related_types')
 
 
 class ImageListingTile(RelatedContainerTile, RichTextTile):
     index = ViewPageTemplateFile('templates/imagelisting.pt')
     limit = 10
+    ptype = 'Image'
 
     @property
     def top_text(self):
