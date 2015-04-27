@@ -106,6 +106,12 @@ class IBaseTileSchema(model.Schema):
 class BasePersistentTile(tiles.PersistentTile):
 
     @property
+    def parent_request(self):
+        """ original request for the subrequest of tile rendering
+        """
+        return self.request.get('PARENT_REQUEST')
+
+    @property
     def computed_id(self):
         return idnormalizer.normalize(self.title)
 

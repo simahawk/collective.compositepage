@@ -88,7 +88,7 @@ class RelatedContainerTile(BasePersistentTile):
             'sort_on': 'effective',
             'sort_order': 'reverse',
         }
-        parent_request = self.request.get('PARENT_REQUEST')
+        parent_request = self.parent_request
         if parent_request and self.filtering_keys:
             # we are in subrequest! just get any possibile
             # filtering here from parent request qstring
