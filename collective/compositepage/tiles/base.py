@@ -197,7 +197,7 @@ class BasePersistentTile(tiles.PersistentTile):
             styles += ''.join([
                 'background-image:url({0});'.format(url),
                 'background-repeat:no-repeat;',
-                'background-position:top left;',
+                'background-position:center center;',
             ])
         if self.data.get('extra_inline_style'):
             styles += self.data.get('extra_inline_style').lstrip(';')
