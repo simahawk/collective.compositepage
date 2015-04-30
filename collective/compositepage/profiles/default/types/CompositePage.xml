@@ -31,6 +31,7 @@
     <element value="plone.app.content.interfaces.INameFromTitle" />
     <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
     <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation"/>
+    <element value="Products.CMFPlone.interfaces.constrains.ISelectableConstrainTypes"/>
   </property>
   <property name="schema">collective.compositepage.interfaces.ICompositePage</property>
   <property name="model_source"></property>

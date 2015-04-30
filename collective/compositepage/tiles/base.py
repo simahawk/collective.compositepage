@@ -16,6 +16,21 @@ from plone.i18n.normalizer import idnormalizer
 from .widgets import ImageFieldWidget
 from .. import _
 
+from zope.interface import provider
+from zope.schema.interfaces import IContextAwareDefaultFactory
+
+
+@provider(IContextAwareDefaultFactory)
+def default_tile_title(context):
+    if context:
+        request = context.REQUEST
+        # XXX: no better way to get this???
+        tile_name = request['PATH_INFO'].split('/')[-1]
+        tile = context.restrictedTraverse(tile_name, None)
+        if tile:
+            return getattr(tile, 'default_title', u'')
+    return u''
+
 
 class IBaseTileSchema(model.Schema):
     """ basic tile schema
@@ -24,6 +39,7 @@ class IBaseTileSchema(model.Schema):
     title = schema.TextLine(
         title=_(u'Box title'),
         required=True,
+        defaultFactory=default_tile_title,
     )
 
     show_title = schema.Bool(
