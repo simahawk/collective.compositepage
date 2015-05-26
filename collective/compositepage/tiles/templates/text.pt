@@ -1,9 +1,15 @@
 <html metal:use-macro="context/tiles_macros/main">
   <metal:content metal:fill-slot="content">
     <div class="box-content">
-      <div tal:replace="structure view/text_output">
+      <div tal:condition="not: view/pt_error"
+           tal:replace="structure view/text_output">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+      </div>
+      <div class="error" tal:condition="view/pt_error">
+        <h3>An error occurred, please verify your markup.</h3>
+        <pre tal:content="view/text_output">
+        </pre>
       </div>
     </div>
   </metal:content>

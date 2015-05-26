@@ -11,6 +11,7 @@ from collective.z3cform.aceeditorwidget import AceEditorFieldWidget
 from .base import IBaseTileSchema
 from .base import BasePersistentTile
 from ..utils import PTCompiler
+from ..utils import logger
 from .. import _
 
 
@@ -25,9 +26,16 @@ class ITextTileSchema(IBaseTileSchema):
 class TextTile(BasePersistentTile):
     index = ViewPageTemplateFile('templates/text.pt')
 
+    pt_error = False
+
     def text_output(self):
         text = self.data['text']
         if not text:
             return ''
-        compiler = PTCompiler(self.context, text)
-        return compiler.compile(request=self.request)
+        try:
+            compiler = PTCompiler(self.context, text)
+            return compiler.compile(request=self.request)
+        except Exception as e:
+            self.pt_error = True
+            logger.error('RAWTILE: ' + str(e))
+            return str(e)
