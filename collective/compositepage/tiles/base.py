@@ -231,8 +231,9 @@ class BasePersistentTile(tiles.PersistentTile):
             # to change image url based on screen sizes.
             url = self.download_url('background_small_image')
         else:
-            # if no small image, use big one
-            url = self.download_url('background_image')
+            if self.data.get('background_image'):
+                # if no small image, use big one
+                url = self.download_url('background_image')
         if url:
             styles += ''.join([
                 'background-image:url({0});'.format(url),
