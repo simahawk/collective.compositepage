@@ -12,6 +12,7 @@ from plone.supermodel import model
 # from plone.i18n.normalizer import idnormalizer
 from plone.namedfile import field as namedfile
 from plone.i18n.normalizer import idnormalizer
+from plone.memoize import view
 
 from .widgets import ImageFieldWidget
 from .. import _
@@ -64,6 +65,15 @@ class IBaseTileSchema(model.Schema):
         required=False,
     )
 
+    form.widget(background_small_image=ImageFieldWidget)
+    background_small_image = namedfile.NamedBlobImage(
+        title=_(u"Background small image"),
+        description=_(u"An image that will be used "
+                      u"as background for the block "
+                      u"for mobile devices."),
+        required=False,
+    )
+
     width = schema.TextLine(
         title=_(u'Custom width'),
         description=_(u'Include unit of measure, eg: 200px or 20em'),
@@ -107,6 +117,7 @@ class IBaseTileSchema(model.Schema):
     model.fieldset('images',
                    label=_(u"Images"),
                    fields=['background_image',
+                           'background_small_image',
                            ])
 
     model.fieldset('block_styles',
@@ -194,22 +205,35 @@ class BasePersistentTile(tiles.PersistentTile):
         """
         return self.scales.scale(fname, **kw)
 
+    @property
+    def tile_css_klass(self):
+        return self.__name__.replace('.', '-')
+
     def css_class(self):
         styles = list(self.data.get('predefined_style') or [])
-        styles.append(self.__name__.replace('.', '-'))
+        styles.append(self.tile_css_klass)
         if not self.data.get('background_image'):
             # we assume every bg predef style ends w/ '-bg'
             if not [x for x in styles if x.endswith('-bg')]:
                 styles.append('no-background-image')
         return ' '.join(styles)
 
+    @view.memoize
     def forced_styles(self):
         styles = ''
         for i in ('width', 'height', 'padding'):
             if self.data.get(i):
                 styles += '{0}:{1};'.format(i, self.data.get(i))
-        if self.data.get('background_image'):
+        url = None
+        if self.data.get('background_small_image'):
+            # we load 1st the small image
+            # then we inject dynamic styles w/ media query
+            # to change image url based on screen sizes.
+            url = self.download_url('background_small_image')
+        else:
+            # if no small image, use big one
             url = self.download_url('background_image')
+        if url:
             styles += ''.join([
                 'background-image:url({0});'.format(url),
                 'background-repeat:no-repeat;',
@@ -218,3 +242,24 @@ class BasePersistentTile(tiles.PersistentTile):
         if self.data.get('extra_inline_style'):
             styles += self.data.get('extra_inline_style').lstrip(';')
         return styles
+
+    @view.memoize
+    def responsive_styles(self):
+        styles = ''
+        if self.data.get('background_image') \
+                and self.data.get('background_small_image'):
+            # if we have both images we can handle them
+            url = self.download_url('background_image')
+            styles = TEMPLATE % {
+                'selector': '#tile-%s .%s' % (self.id, self.tile_css_klass),
+                'big_image_url': url,
+            }
+        return styles
+
+
+TEMPLATE = """
+@media
+  only screen and (min-width : 513px){
+    %(selector)s { background-image: url("%(big_image_url)s") !important; }
+  }
+"""

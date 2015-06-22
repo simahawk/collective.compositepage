@@ -7,7 +7,7 @@
       metal:define-macro="main">
   <body>
     <div class="tile"
-         tal:attributes="id view/id;">
+         tal:attributes="id string:tile-${view/id};">
         <div tal:condition="view/can_modify"
              class="tile-edit-wrapper">
           <div class="tile-actions">
@@ -40,6 +40,9 @@
             <metal:content metal:define-slot="content">
             </metal:content>
           </div>
+          <style tal:condition="view/responsive_styles"
+                 tal:content="view/responsive_styles"
+                 />
         </div>
     </div>
 </body>
