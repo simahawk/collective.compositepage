@@ -147,6 +147,13 @@ class BasePersistentTile(tiles.PersistentTile):
                                self.context)
 
     @property
+    def view_url(self):
+        """ this is exposed in the base markup as `data-tileurl`
+        and we can use this to render the tile via AJAX.
+        """
+        return "./@@{0}/{1}".format(self.__name__, self.id)
+
+    @property
     def edit_url(self):
         return "./@@edit-tile/{0}/{1}".format(self.__name__, self.id)
 

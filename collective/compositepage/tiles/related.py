@@ -73,13 +73,6 @@ class RelatedContainerTile(BasePersistentTile):
     def catalog(self):
         return plone.api.portal.get_tool("portal_catalog")
 
-    def prepare_filters(self, request):
-        res = {}
-        for k in self.filtering_keys:
-            if k in request:
-                res[k] = request.get(k)
-        return res
-
     @property
     def base_query(self):
         ptypes = self.data['related_types'] or self.ptype
@@ -88,12 +81,22 @@ class RelatedContainerTile(BasePersistentTile):
             'sort_on': 'effective',
             'sort_order': 'reverse',
         }
-        parent_request = self.parent_request
-        if parent_request and self.filtering_keys:
-            # we are in subrequest! just get any possibile
-            # filtering here from parent request qstring
-            query.update(self.prepare_filters(parent_request))
+        # we don't want to care about this
+        # being a request or a subrequest
+        request = dict(self.request)
+        request.update(self.parent_request)
+        if self.filtering_keys:
+            query.update(self.prepare_filters(request))
         return query
+
+    def prepare_filters(self, request):
+        """ you can override this to manipulate filters
+        """
+        res = {}
+        for k in self.filtering_keys:
+            if k in request:
+                res[k] = request.get(k)
+        return res
 
     @view.memoize
     def get_container(self):
